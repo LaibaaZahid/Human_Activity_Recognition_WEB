@@ -1,11 +1,14 @@
-from channels.generic.websocket import AsyncWebsocketConsumer
+from channels.generic.websocket import WebsocketConsumer
+import json
+from asgiref.sync import async_to_sync
+class MyConsumer(WebsocketConsumer):
+    def connect(self):
+        self.accept()
+        print("Connection req recieved")
+        self.send(text_data=json.dumps({'status': 'connected'}))
 
-class MyConsumer(AsyncWebsocketConsumer):
-    async def connect(self):
-        await self.accept()
-
-    async def disconnect(self, close_code):
+    def disconnect(self, close_code):
         pass
 
-    async def receive(self, text_data):
+    def receive(self, text_data):
         pass

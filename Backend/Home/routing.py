@@ -1,10 +1,8 @@
-from django.urls import re_path
+from django.urls import path
 
 from . import consumers
-
+from Home import views
 websocket_urlpatterns = [
-    
-    # The line `re_path(r'ws/socket/$', consumers.MyConsumer.as_asgi())` is defining a URL pattern for
-    # a WebSocket connection.
-    re_path(r'ws/socket/$', consumers.MyConsumer.as_asgi()),
+    path('', consumers.MyConsumer.as_asgi()),
+    path('', views.index, name='index')
 ]
