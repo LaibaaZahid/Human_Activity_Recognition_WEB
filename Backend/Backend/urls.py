@@ -21,6 +21,6 @@ from Home import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('socket/', include(urls))
+    path('', include(urls))
 ]
 

@@ -4,22 +4,7 @@
     <title>WebSocket Test</title>
 </head>
 <body>
-    <button onclick="connect()">Connect</button>
-    <script>
-        var socket = null;
-
-        function connect() {
-            socket = new WebSocket('ws://' + window.location.host + '/');
-            socket.onopen = function() {
-                console.log('WebSocket connection established');
-            };
-            socket.onmessage = function(event) {
-                console.log('Message received:', event.data);
-            };
-            socket.onclose = function() {
-                console.log('WebSocket connection closed');
-            };
-        }
-    </script>
+    <a href="{% url 'socket' %}">Open Server</a>
+    
 </body>
 </html>
