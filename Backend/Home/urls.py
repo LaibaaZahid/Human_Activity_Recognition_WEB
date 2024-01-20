@@ -5,5 +5,6 @@ urlpatterns = [
     # Socket pages
     path("", views.index, name= "index"),
     path("socket-connect", views.socket_connect, name="socket"),
-    path("disconnect", views.disconnect, name="disconnect")
+    path("disconnect", views.disconnect, name="disconnect"),
+    path("socket-binding", views.socket_bind, name="bind")
 ]
