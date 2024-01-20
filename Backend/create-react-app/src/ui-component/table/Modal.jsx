@@ -48,7 +48,10 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       className="modal-container"
       onClick={(e) => {
         if (e.target.className === "modal-container") closeModal();
+
       }}
+      onKeyDown={(e) => { console.log(e.key); if (e.key === "Escape") closeModal();}}
+      // without this upper line, code was throwing compiler error. idk why!
     >
       <div className="modal">
         <form>
