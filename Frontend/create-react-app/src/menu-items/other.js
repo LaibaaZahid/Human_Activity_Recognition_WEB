@@ -17,7 +17,16 @@ const other = {
       url: '/sample-page',
       /*icon: icons.IconBrandChrome,*/
       breadcrumbs: false
+    },
+
+    {
+      id:'connection-page',
+      title:'Server Connection',
+      type:'item',
+      url:'/server-connection-page',
+      breadcrumbs: false
     }
+
   ]
 };
 
