@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 
 // project imports
-import MainLayout from 'layout/MainLayout';
+//import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
 // dashboard routing
@@ -22,7 +22,7 @@ const ServerConnection = Loadable(lazy(() => import('views/server-connection-pag
 
 const MainRoutes = {
   path: '/',
-  element: <MainLayout />,
+  element: < DashboardDefault/>,
   children: [
     {
       path: '/',
