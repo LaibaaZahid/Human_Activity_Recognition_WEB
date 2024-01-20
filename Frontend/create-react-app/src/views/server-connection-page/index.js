@@ -1,9 +1,9 @@
-import { Typography } from '@mui/material';
+/*import { Typography } from '@mui/material';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-
+*/
 // material-ui
-import { useTheme } from '@mui/material/styles';
+/*import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Button,
@@ -22,6 +22,7 @@ import {
   useMediaQuery
 } from '@mui/material';
 
+
 // third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
@@ -34,21 +35,28 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import Google from 'assets/images/icons/social-google.svg';
+import Google from 'assets/images/icons/social-google.svg';*/
 
+import{
+  Box,
+  Button,
+}from '@mui/material';
 
-const ServerConnection =() => (
-    < >
+const ServerConnection =() => {
 
+  return(
+    <>
     <h1>ServerConnection</h1>
         <Box sx={{ mt: 2 }}>
-              <AnimateButton>
+                <h1>ServerConnection</h1>
                 <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
                   Bind Socket
                 </Button>
-              </AnimateButton>
+            
             </Box>
-    </>
+            </>
     );
+
+  }
 
 export default ServerConnection;

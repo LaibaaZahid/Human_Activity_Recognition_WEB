@@ -9,6 +9,7 @@ const icons = { IconBrandChrome, IconHelp };*/
 const other = {
   id: 'sample-docs-roadmap',
   type: 'group',
+  title: 'Users and Server',
   children: [
     {
       id: 'sample-page',
@@ -20,10 +21,10 @@ const other = {
     },
 
     {
-      id:'connection-page',
+      id:'server-connection-page',
       title:'Server Connection',
       type:'item',
-      url:'/server-connection-page',
+      url:'/connection-page',
       breadcrumbs: false
     }
 
