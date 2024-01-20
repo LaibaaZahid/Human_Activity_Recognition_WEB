@@ -8,17 +8,18 @@ import time
 
 def index(request):
     conn = check_active_conections()
-    return render(request, 'index.html', {'active': conn})
+    return render(request, 'index.html', {'active': len(conn), 'list': conn})
 
 active = 0
 port = 4444
 is_running = True
 t_id = 1000
 s = socket.socket()
+active_list = []
         
 def socket_bind(request):
     global s
-    s.bind(('192.168.1.4', port))
+    s.bind(('192.168.100.46', port))
     print("socket binded successfuly on port:", port)
     return index(request)
 
@@ -45,14 +46,16 @@ def socket_connect(request):
                 if isinstance(s, socket.socket):
                     print("socket is available")
                     c, addr = s.accept()
-                    print("Connection established from ", addr, "at:", datetime.datetime.now())
-                    active += 1    
+                    print("Connection established from ", addr, "at:", datetime.datetime.now())    
+                    id = c.recv(10).decode()
+                    active_list.append(id)
                     while is_running:
                         data = c.recv(1024).decode()
                         print(data)
                         if data == "":
-                            print("Data is finsihed..................................................")
-                            active -= 1
+                            print("finished................")
+                            active_list.remove(id)
+                            
                             break
                         
                         columns = data.split(',')
@@ -65,9 +68,8 @@ def socket_connect(request):
                             filename = 'sensordata_' + str(int(start_time / 5)) + '.csv'
                             f = open(filename, 'w', newline='')
                             writer = csv.writer(f)
-                            
                             writer.writerow(['Acc(x)', 'Acc(y)', 'Acc(z)', 'Gyr(x)', 'Gyr(y)', 'Gyr(z)', 'Mag(x)', 'Mag(y)', 'Mag(z)'])
-                    active -= 1
+                    
                     break
 
             f.close()
@@ -96,5 +98,5 @@ def disconnect(request):
     return render(request, "index.html")
 
 def check_active_conections():
-    global active
-    return active
+    global active_list
+    return active_list
