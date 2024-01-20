@@ -159,6 +159,8 @@ chrome-user-data
 *.swp
 *.swo
 
+Pipfile.lock
+
 packages/react-devtools-core/dist
 packages/react-devtools-extensions/chrome/build
 packages/react-devtools-extensions/chrome/*.crx
