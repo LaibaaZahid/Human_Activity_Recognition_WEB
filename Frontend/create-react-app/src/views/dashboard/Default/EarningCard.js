@@ -135,7 +135,7 @@ const EarningCard = ({ isLoading }) => {
                       </MenuItem>
                       <MenuItem onClick={handleClose}>
                         <ArchiveTwoToneIcon sx={{ mr: 1.75 }} /> Archive File
-                      </MenuItem>
+                    </MenuItem> 
                     </Menu>
                   </Grid>
                 </Grid>

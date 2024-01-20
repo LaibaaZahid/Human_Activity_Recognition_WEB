@@ -12,6 +12,7 @@ import Chart from 'react-apexcharts';
 // project imports
 import chartData from './chart-data/bajaj-area-chart';
 
+
 // ===========================|| DASHBOARD DEFAULT - BAJAJ AREA CHART CARD ||=========================== //
 
 const BajajAreaChartCard = () => {
@@ -39,7 +40,7 @@ const BajajAreaChartCard = () => {
           <Grid container alignItems="center" justifyContent="space-between">
             <Grid item>
               <Typography variant="subtitle1" sx={{ color: theme.palette.secondary.dark }}>
-                Respiration Rate
+                Server Connection
               </Typography>
             </Grid>
             <Grid item>
@@ -56,6 +57,8 @@ const BajajAreaChartCard = () => {
         </Grid>
       </Grid>
       <Chart {...chartData} />
+              
+      
     </Card>
   );
 };

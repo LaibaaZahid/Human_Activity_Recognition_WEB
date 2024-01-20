@@ -43,7 +43,7 @@ const PopularCard = ({ isLoading }) => {
               <Grid item xs={12}>
                 <Grid container alignContent="center" justifyContent="space-between">
                   <Grid item>
-                    <Typography variant="h4">Running Activity</Typography>
+                    <Typography variant="h4">Server Connection</Typography>
                   </Grid>
                   <Grid item>
                     <MoreHorizOutlinedIcon
@@ -75,7 +75,7 @@ const PopularCard = ({ isLoading }) => {
                       <MenuItem onClick={handleClose}> Today</MenuItem>
                       <MenuItem onClick={handleClose}> This Month</MenuItem>
                       <MenuItem onClick={handleClose}> This Year </MenuItem>
-                    </Menu>
+                    </Menu> 
                   </Grid>
                 </Grid>
               </Grid>
