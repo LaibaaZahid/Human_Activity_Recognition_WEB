@@ -17,6 +17,7 @@
     "formik": "^2.2.9",
     "framer-motion": "^6.3.16",
     "material-ui-popup-state": "^4.0.1",
+    "npm": "^10.3.0",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.0",
@@ -27,7 +28,7 @@
     "react-redux": "^8.0.2",
     "react-router": "6.3.0",
     "react-router-dom": "6.3.0",
-    "react-scripts": "^5.0.1",
+    "react-scripts": "^3.0.1",
     "redux": "^4.2.0",
     "yup": "^0.32.11"
   },
