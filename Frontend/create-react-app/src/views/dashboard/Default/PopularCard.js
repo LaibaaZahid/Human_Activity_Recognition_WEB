@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Avatar, Button, CardActions, CardContent, Divider, Grid, Menu, MenuItem, Typography } from '@mui/material';
+import {  Button,  CardContent,  Grid, Menu, MenuItem, Typography } from '@mui/material';
 
 // project imports
 import BajajAreaChartCard from './BajajAreaChartCard';
@@ -12,10 +12,13 @@ import SkeletonPopularCard from 'ui-component/cards/Skeleton/PopularCard';
 import { gridSpacing } from 'store/constant';
 
 // assets
-import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
+/*import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';*/
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+/*import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'; 
+Avatar,
+Divider,
+CardActions,*/
 
 // ==============================|| DASHBOARD DEFAULT - POPULAR CARD ||============================== //
 
@@ -83,6 +86,38 @@ const PopularCard = ({ isLoading }) => {
                 <BajajAreaChartCard />
               </Grid>
               <Grid item xs={12}>
+                <Grid container direction="column">
+                  <Grid item>
+                    <Grid container alignItems="center" justifyContent="space-between">
+                      <Grid item >
+                        {/* Add the button here */}
+                        <Button variant="contained"  sx={{backgroundColor:"#AF3CFF"}}>
+                          Server Start
+                        </Button>
+                      </Grid>
+                      <Grid item >
+                      <Button variant="contained" sx={{backgroundColor:"#AF3CFF"}}>
+                      Server Stop
+                        </Button>
+                      </Grid>
+                      <Grid item >
+                      <Button variant="contained" sx={{backgroundColor:"#AF3CFF", marginTop:10+'px', marginLeft:65+'px'}}>
+                         Socket Bind
+                        </Button>
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Grid>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </MainCard>
+      )}
+    </>
+  );
+};
+                        
+             {/* <Grid item xs={12}>
                 <Grid container direction="column">
                   <Grid item>
                     <Grid container alignItems="center" justifyContent="space-between">
@@ -288,19 +323,17 @@ const PopularCard = ({ isLoading }) => {
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </CardContent>
-          <CardActions sx={{ p: 1.25, pt: 0, justifyContent: 'center' }}>
+             <CardActions sx={{ p: 1.25, pt: 0, justifyContent: 'center' }}>
             <Button size="small" disableElevation>
               View All
               <ChevronRightOutlinedIcon />
             </Button>
           </CardActions>
-        </MainCard>
+                            </MainCard>
       )}
     </>
   );
-};
+};*/}
 
 PopularCard.propTypes = {
   isLoading: PropTypes.bool
