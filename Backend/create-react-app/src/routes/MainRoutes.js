@@ -1,3 +1,4 @@
+import MainLayout from 'layout/MainLayout';
 import { lazy } from 'react';
 
 // project imports
@@ -22,7 +23,7 @@ const ServerConnection = Loadable(lazy(() => import('views/server-connection-pag
 
 const MainRoutes = {
   path: '/',
-  element: < DashboardDefault/>,
+  element: < MainLayout/>,
   children: [
     {
       path: '/',
