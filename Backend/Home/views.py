@@ -1,49 +1,102 @@
-
 import datetime 
 import socket
 import threading
+import concurrent.futures
 from django.shortcuts import render
+import csv
+import time
 
 def index(request):
-    return render(request, 'index.html')
+    conn = check_active_conections()
+    return render(request, 'index.html', {'active': len(conn), 'list': conn})
 
-
-s = socket.socket()
+active = 0
 port = 4444
 is_running = True
+t_id = 1000
+s = socket.socket()
+active_list = []
+        
+def socket_bind(request):
+    global s
+    s.bind(('192.168.100.46', port))
+    print("socket binded successfuly on port:", port)
+    return index(request)
+
 
 def socket_connect(request):
     global is_running
+    global t_id
     
-    s.bind(('192.168.1.9', port))
-    print("socket binded to", port)
+    print("socket listening to", port)
     s.listen(5)
 
     def run():
         global is_running
-        
-        while is_running:
-            c, addr = s.accept()
-            print("Connection established from ", addr, "at:", datetime.datetime.now())
-            data = c.recv(1024).decode()
-            if not data or data == "Break":
-                print("ending the connection")
-                break
-            print(data)
+        global active
+        try:
+            start_time = time.time()
+            filename = 'sensordata_' + str(int(start_time / 5)) + '.csv'
+            f = open(filename, 'w', newline='')
+            # Create a CSV writer object
+            writer = csv.writer(f)
+            writer.writerow(['Acc(x)', 'Acc(y)', 'Acc(z)', 'Gyr(x)', 'Gyr(y)', 'Gyr(z)', 'Mag(x)', 'Mag(y)', 'Mag(z)'])
+            print("csv writer is intialized")
+            while True:
+                if isinstance(s, socket.socket):
+                    print("socket is available")
+                    c, addr = s.accept()
+                    print("Connection established from ", addr, "at:", datetime.datetime.now())    
+                    id = c.recv(10).decode()
+                    active_list.append(id)
+                    while is_running:
+                        data = c.recv(1024).decode()
+                        print(data)
+                        if data == "":
+                            print("finished................")
+                            active_list.remove(id)
+                            
+                            break
+                        
+                        columns = data.split(',')
+                        print(columns)
+                        writer.writerow(columns)
+                        elapsed_time = time.time() - start_time
+                        if elapsed_time >= 50:
+                            f.close()
+                            start_time = time.time()
+                            filename = 'sensordata_' + str(int(start_time / 5)) + '.csv'
+                            f = open(filename, 'w', newline='')
+                            writer = csv.writer(f)
+                            writer.writerow(['Acc(x)', 'Acc(y)', 'Acc(z)', 'Gyr(x)', 'Gyr(y)', 'Gyr(z)', 'Mag(x)', 'Mag(y)', 'Mag(z)'])
+                    
+                    break
+
+            f.close()
+            c.close()
+        except Exception:
+            pass
 
         
-        s.close()
+        
+
 
     thread = threading.Thread(target=run)
+    t_id = threading.get_ident()
     thread.start()
 
-    return render(request, 'index.html')
+    return index(request)
     
 
 def disconnect(request):
     global is_running
-    
+    global s
     print("connection has been closed")
-    is_running = False
-
+    #is_running = False
+    s.close()
+    s = socket.socket()
     return render(request, "index.html")
+
+def check_active_conections():
+    global active_list
+    return active_list

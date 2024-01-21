@@ -1,7 +1,8 @@
+import MainLayout from 'layout/MainLayout';
 import { lazy } from 'react';
 
 // project imports
-import MainLayout from 'layout/MainLayout';
+//import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 
 // dashboard routing
@@ -16,12 +17,13 @@ const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
+const ServerConnection = Loadable(lazy(() => import('views/server-connection-page')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
   path: '/',
-  element: <MainLayout />,
+  element: < MainLayout/>,
   children: [
     {
       path: '/',
@@ -39,6 +41,10 @@ const MainRoutes = {
     {
       path: 'sample-page',
       element: <SamplePage />
+    },
+    {
+      path: 'server-connection-page',
+      element: <ServerConnection />
     }
   ]
 };
