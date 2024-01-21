@@ -1,14 +1,14 @@
 
 from django.contrib import admin
 from django.urls import path, include
-from .views import *
+from . import views
 
 from Home import urls
 
 urlpatterns = [
     
     # path('/', include(urls)), """
-    path('', index),
+    path('', views.index, name='index'),
     path('admin/', admin.site.urls)  ,
     
     ]
