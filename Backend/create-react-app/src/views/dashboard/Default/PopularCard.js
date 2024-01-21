@@ -91,18 +91,18 @@ const PopularCard = ({ isLoading }) => {
                     <Grid container alignItems="center" justifyContent="space-between">
                       <Grid item >
                         {/* Add the button here */}
-                        <Button variant="contained"  sx={{backgroundColor:"#AF3CFF"}}>
-                          Server Start
+                        <Button variant="contained"  sx={{backgroundColor:"#AF3CFF"}} onClick={"{% url 'socket' %}"}>
+                          Socket Bind
                         </Button>
                       </Grid>
                       <Grid item >
                       <Button variant="contained" sx={{backgroundColor:"#AF3CFF"}}>
-                      Server Stop
+                      Server Sart
                         </Button>
                       </Grid>
                       <Grid item >
                       <Button variant="contained" sx={{backgroundColor:"#AF3CFF", marginTop:10+'px', marginLeft:65+'px'}}>
-                         Socket Bind
+                         Server Stop
                         </Button>
                       </Grid>
                     </Grid>
