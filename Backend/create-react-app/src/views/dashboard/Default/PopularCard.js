@@ -91,8 +91,8 @@ const PopularCard = ({ isLoading }) => {
                     <Grid container alignItems="center" justifyContent="space-between">
                       <Grid item >
                         {/* Add the button here */}
-                        <Button variant="contained"  sx={{backgroundColor:"#AF3CFF"}} onClick={"{% url 'socket' %}"}>
-                          Socket Bind
+                        <Button variant="contained"  sx={{backgroundColor:"#AF3CFF"}} onClick={"{% url views socket_bind %}"}>
+                           Socket Bind
                         </Button>
                       </Grid>
                       <Grid item >
