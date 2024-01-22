@@ -1,79 +1,40 @@
-import { useState } from "react";
-
-// material-ui
-/*import { Typography } from '@mui/material';*/
-import {Table} from 'ui-component/table/table.js';
-import {Modal} from 'ui-component/table/Modal.jsx';
-
-// project imports
-/*import MainCard from 'ui-component/cards/MainCard';*/
-
-// ==============================|| SAMPLE PAGE ||============================== //
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const SamplePage = () => {
+  const [users, setUsers] = useState([]);
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [rows, setRows] = useState([
-    {
-      page: "User 1",
-      description: "This user is using Smartphone",
-      status: "activated",
-    },
-    {
-      page: "User 2",
-      description: "This user is using Smartwatch",
-      status: "deactivated",
-    },
-    {
-      page: "User 3",
-      description: "This user is using Glasses",
-      status: "error",
-    },
-  ]);
-  const [rowToEdit, setRowToEdit] = useState(null);
+  useEffect(() => {
+    axios.get('/api/device-users/')
+      .then(response => setUsers(response.data));
+  }, []);
 
-  const handleDeleteRow = (targetIndex) => {
-    setRows(rows.filter((_, idx) => idx !== targetIndex));
-  };
 
-  const handleEditRow = (idx) => {
-    setRowToEdit(idx);
 
-    setModalOpen(true);
-  };
-
-  const handleSubmit = (newRow) => {
-    rowToEdit === null
-      ? setRows([...rows, newRow])
-      : setRows(
-          rows.map((currRow, idx) => {
-            if (idx !== rowToEdit) return currRow;
-
-            return newRow;
-          })
-        );
-  };
+  if (!users.length) return <p>Loading...</p>;
 
   return (
     <div className="App">
-      <Table rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-      <button onClick={() => setModalOpen(true)} className="btn addbtn">
-        Add
-      </button>
-      {modalOpen && (
-        <Modal
-          closeModal={() => {
-            setModalOpen(false);
-            setRowToEdit(null);
-          }}
-          onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null && rows[rowToEdit]}
-        />
-      )}
-    </div>
+    <table style={{ borderCollapse: 'collapse', width: '100%' }}>
+      <thead>
+        <tr style={{ backgroundColor: '#f2f2f2' }}>
+          <th style={{ border: '1px solid #ddd', padding: '8px' }}>ID</th>
+          <th style={{ border: '1px solid #ddd', padding: '8px' }}>Device Type</th>
+          <th style={{ border: '1px solid #ddd', padding: '8px' }}>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {users.map((user, index) => (
+          <tr key={user.user_id} style={{ backgroundColor: index % 2 === 0 ? '#f2f2f2' : 'white' }}>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.user_id}</td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.device_type}</td>
+            <td style={{ border: '1px solid #ddd', padding: '8px' }}>{user.status}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
   );
 }
-
-  
 
 export default SamplePage;

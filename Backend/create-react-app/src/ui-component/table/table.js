@@ -1,45 +1,45 @@
 import React from "react";
 
-import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 
 import "./table.css";
 
-export const Table = ({ rows, deleteRow, editRow }) => {
+export const Table = () => {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    axios.get('/api/device-users/')
+      .then(response => setUsers(response.data));
+  }, []);
+
+
+  
+  
   return (
     <div className="table-wrapper">
       <table className="table">
         <thead>
           <tr>
-            <th>Users</th>
-            <th className="expand">Description</th>
+            <th>User id</th>
+            <th className="expand">Device Type</th>
             <th>Status</th>
-            <th>Actions</th>
+            <th>Last connected</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((row, idx) => {
-            const statusText =
-              row.status.charAt(0).toUpperCase() + row.status.slice(1);
+          {users.map((user) => {
 
             return (
-              <tr key={idx}>
-                <td>{row.page}</td>
-                <td className="expand">{row.description}</td>
+              <tr key={user.user_id}>
+                <td>{user.user_id}</td>
+                <td className="expand">{user.device_type}</td>
                 <td>
-                  <span className={`label label-${row.status}`}>
-                    {statusText}
+                  <span>
+                    {user.status}
                   </span>
                 </td>
                 <td className="fit">
-                  <span className="actions">
-                    <BsFillTrashFill
-                      className="delete-btn"
-                      onClick={() => deleteRow(idx)}
-                    />
-                    <BsFillPencilFill
-                      className="edit-btn"
-                      onClick={() => editRow(idx)}
-                    />
+                  <span>
+                   {user.last_connected}
                   </span>
                 </td>
               </tr>
