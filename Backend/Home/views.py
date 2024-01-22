@@ -5,6 +5,8 @@ import concurrent.futures
 from django.shortcuts import render
 import csv
 import time
+from django.http import JsonResponse
+
 
 def index(request):
     conn = check_active_conections()
@@ -21,7 +23,10 @@ def socket_bind(request):
     global s
     s.bind(('192.168.100.46', port))
     print("socket binded successfuly on port:", port)
-    return index(request)
+    data= {'status': 'success'}
+    return JsonResponse(data)
+
+""" seerat  making changes """
 
 
 def socket_connect(request):
@@ -29,6 +34,7 @@ def socket_connect(request):
     global t_id
     
     print("socket listening to", port)
+    data = {'status': 'socket connected'}
     s.listen(5)
 
     def run():
@@ -85,7 +91,7 @@ def socket_connect(request):
     t_id = threading.get_ident()
     thread.start()
 
-    return index(request)
+    return JsonResponse(data)
     
 
 def disconnect(request):
