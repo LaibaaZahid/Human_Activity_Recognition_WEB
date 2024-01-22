@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import React,{ useState } from 'react';
+import axios from 'axios';
+
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -14,18 +16,39 @@ import { gridSpacing } from 'store/constant';
 // assets
 /*import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';*/
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-/*import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined'; 
-Avatar,
-Divider,
-CardActions,*/
-
-// ==============================|| DASHBOARD DEFAULT - POPULAR CARD ||============================== //
-
 const PopularCard = ({ isLoading }) => {
+
+  
+
+/*  const handleStartSubmit = async (event) => {
+    event.preventDefault();
+    try {
+        const response = await axios.post('http://localhost:8000/api/socket_connect');
+        console.log(response.data);
+    } catch (error) {
+        console.error('Error calling Django function:', error);
+    }
+};
+*/
+
+const handleButtonClick = async () => {
+  
+  try {
+      const response = await axios.post('http://localhost:8000/api/socket_connect');
+      console.log(response.data);
+  } catch (error) {
+      console.error('Error calling Django function:', error);
+  }
+};
+
   const theme = useTheme();
+  console.log("cookie is" + document.cookie);
+  
 
   const [anchorEl, setAnchorEl] = useState(null);
+
+  
+  // Your component JSX
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -34,6 +57,8 @@ const PopularCard = ({ isLoading }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  
 
   return (
     <>
@@ -91,17 +116,20 @@ const PopularCard = ({ isLoading }) => {
                     <Grid container alignItems="center" justifyContent="space-between">
                       <Grid item >
                         {/* Add the button here */}
-                        <Button variant="contained"  sx={{backgroundColor:"#AF3CFF"}} onClick={"{% url views socket_bind %}"}>
-                           Socket Bind
+
+                 
+                        <Button variant="contained" onClick={handleButtonClick} sx={{backgroundColor:"#AF3CFF"}} >
+                         Start Server
+                        </Button> 
+                  
+                      </Grid>
+                      <Grid item >
+                      <Button variant="contained" sx={{backgroundColor:"#AF3CFF"}} onClick={"location.href='{% url 'bind' %}'"}>
+                      Socket Bind
                         </Button>
                       </Grid>
                       <Grid item >
-                      <Button variant="contained" sx={{backgroundColor:"#AF3CFF"}}>
-                      Server Sart
-                        </Button>
-                      </Grid>
-                      <Grid item >
-                      <Button variant="contained" sx={{backgroundColor:"#AF3CFF", marginTop:10+'px', marginLeft:65+'px'}}>
+                      <Button variant="contained" sx={{backgroundColor:"#AF3CFF", marginTop:10+'px', marginLeft:65+'px'}} onClick={"location.href='{% url 'disconnect' %}'"}>
                          Server Stop
                         </Button>
                       </Grid>
