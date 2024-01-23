@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 
+import { useState } from 'react';
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { Avatar, Box, Grid, Menu, MenuItem, Typography } from '@mui/material';
@@ -108,7 +108,7 @@ const EarningCard = ({ isLoading }) => {
                     >
                       <MoreHorizIcon fontSize="inherit" />
                     </Avatar>
-                    <Menu
+                  <Menu
                       id="menu-earning-card"
                       anchorEl={anchorEl}
                       keepMounted
@@ -137,6 +137,7 @@ const EarningCard = ({ isLoading }) => {
                         <ArchiveTwoToneIcon sx={{ mr: 1.75 }} /> Archive File
                     </MenuItem> 
                     </Menu>
+                    
                   </Grid>
                 </Grid>
               </Grid>
