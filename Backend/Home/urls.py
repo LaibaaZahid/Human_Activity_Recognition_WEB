@@ -7,7 +7,10 @@ app_name = "Home"
 urlpatterns = [
     # Socket pages
     path("", views.index, name= "index"),
-    path("api/socket_connect", views.socket_connect, name="socket_connect"),
-    path("disconnect", views.disconnect, name="disconnect"),
-    path("socket-binding", views.socket_bind, name="bind")
-]
+    path("socket-connect/", views.socket_connect, name="socket_connect"),
+    path("socket-disconnect/", views.disconnect, name="disconnect"),
+    path("socket-binding/", views.socket_bind, name="bind"),
+    path("active-users", views.get_active_users),
+    path("all-users", views.get_all_users),
+    path('api/device-users/', views.DeviceUserList.as_view(), name='device-user-list'),
+    ]

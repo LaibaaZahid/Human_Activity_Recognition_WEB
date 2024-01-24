@@ -30,15 +30,7 @@ const handleButtonClick = async () => {
   }
 };
 
-const handleSocketBindClick = async () => {
-  
-  try {
-      const response = await axios.post('http://localhost:8000/api/socket_bind');
-      console.log(response.data);
-  } catch (error) {
-      console.error('Error calling Bind function:', error);
-  }
-};
+
 
   const theme = useTheme();
   
@@ -56,7 +48,41 @@ const handleSocketBindClick = async () => {
     setAnchorEl(null);
   };
 
-  
+  const [message, setMessage] = useState('');
+
+  const socket_bind = () => {
+    axios.get('http://localhost:8000/socket-binding/')
+      .then(response => {
+        setMessage(response.data.message);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+  const server_disconnect = () => {
+    axios.get('http://localhost:8000/socket-disconnect/')
+      .then(response => {
+        setMessage(response.data.message);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
+
+
+
+  const [server_message, setServerMessage] = useState('');
+
+  const server_connect = () => {
+    axios.get('http://localhost:8000/socket-connect/')
+      .then(response => {
+        setServerMessage(response.data.message);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -106,6 +132,10 @@ const handleSocketBindClick = async () => {
                 </Grid>
               </Grid>
               <Grid item xs={12} sx={{ pt: '16px !important' }}>
+                <Grid>
+                <p>{message}</p>
+                <h1>{server_message}</h1>
+                </Grid>
                 <BajajAreaChartCard />
               </Grid>
               <Grid item xs={12}>
@@ -116,18 +146,18 @@ const handleSocketBindClick = async () => {
                         {/* Add the button here */}
 
                  
-                        <Button variant="contained" onClick={handleButtonClick} sx={{backgroundColor:"#AF3CFF"}} >
+                        <Button variant="contained" onClick={server_connect} sx={{backgroundColor:"#AF3CFF"}} >
                          Start Server
                         </Button> 
                   
                       </Grid>
                       <Grid item >
-                      <Button onClick={handleSocketBindClick} variant="contained" sx={{backgroundColor:"#AF3CFF"}}>
+                      <Button variant="contained" sx={{backgroundColor:"#AF3CFF"}} onClick={socket_bind}>
                       Socket Bind
                         </Button>
                       </Grid>
                       <Grid item >
-                      <Button variant="contained" sx={{backgroundColor:"#AF3CFF", marginTop:10+'px', marginLeft:65+'px'}} onClick={"location.href='{% url 'disconnect' %}'"}>
+                      <Button variant="contained" sx={{backgroundColor:"#AF3CFF", marginTop:10+'px', marginLeft:65+'px'}} onClick={server_disconnect}>
                          Server Stop
                         </Button>
                       </Grid>
