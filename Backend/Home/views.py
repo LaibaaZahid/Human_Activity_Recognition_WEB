@@ -24,12 +24,11 @@ active_list = []
 @api_view(['GET'])
 def socket_bind(*args, **kwargs):
     global s
-    s.bind(('localhost', port))
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    s.bind(('192.168.232.131', port))
     print("socket binded successfuly on port:", port)
     return Response({'message': 'Socket Binded successfuly'})
-
-
-
 
 
 
