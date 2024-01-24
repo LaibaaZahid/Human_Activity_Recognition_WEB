@@ -19,7 +19,7 @@ active_list = []
         
 def socket_bind(request):
     global s
-    s.bind(('192.168.100.46', port))
+    s.bind(('localhost', port))
     print("socket binded successfuly on port:", port)
     return index(request)
 
