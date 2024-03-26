@@ -1,11 +1,11 @@
-import datetime, socket ,threading ,csv ,time ,json
+import socket ,threading ,csv ,time ,json
 from rest_framework import generics
 from django.shortcuts import render
 from .models import DeviceUser
 from .serializers import DeviceUserSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
+from datetime import datetime
 
 def index(request):
     conn = check_active_conections()
@@ -20,11 +20,12 @@ is_running = True
 t_id = 1000
 s = socket.socket()
 active_list = []
+sensors = ["Accelerometer", "Gyroscope", "Magnetometer", "Proximity", "LinearAcceleration", "StepCounter", "Gravity", "RotationVector"]
         
 @api_view(['GET'])
 def socket_bind(*args, **kwargs):
     global s
-    s.bind(('localhost', port))
+    s.bind(('192.168.1.8', port))
     print("socket binded successfuly on port:", port)
     return Response({'message': 'Socket Binded successfuly'})
 
@@ -46,44 +47,72 @@ def socket_connect(request):
         global is_running
         global active
         try:
-            start_time = time.time()
-            filename = 'sensordata_' + str(int(start_time / 5)) + '.csv'
-            f = open(filename, 'w', newline='')
-            # Create a CSV writer object
-            writer = csv.writer(f)
-            writer.writerow(['Acc(x)', 'Acc(y)', 'Acc(z)', 'Gyr(x)', 'Gyr(y)', 'Gyr(z)', 'Mag(x)', 'Mag(y)', 'Mag(z)'])
-            print("csv writer is intialized")
             while True:
+                    # Establishing connection ############
                     c, addr = s.accept()
-                    print("Connection established from ", addr, "at:", datetime.datetime.now())    
+                    print("Connection established from ", addr, "at:", datetime.now())    
+                    
+                    # Receiving user id ##########
                     id = c.recv(10).decode()
-                    update_status(id)
-                    active_list.append(id)
-                    while is_running:
-                        data = c.recv(1024).decode()
-                        print(data)
-                        if data == "":
-                            print("finished................")
-                            active_list.remove(id)
+                    print("User ID received : ", id)
+
+                    # Getting active sensors list #########
+                    data = c.recv(22).decode() # Assuming socket_stream is a socket object
+                    numbers = data.split(',')  # Split the string by commas to get individual numbers
+                    print(numbers)
+                    indexes_of_1 = [i for i, num in enumerate(numbers) if num == ' 1' or num == '1']  # Get indexes where 1 is present
+                    filenames = [f"{sensors[i]}.csv" for i in indexes_of_1]
+                    print("indexes of 1:", indexes_of_1)
+                    print("selected sensors: ",filenames)
+                    ##################### Sensor list generated now ##################################
+                    
+                    bytes_to_read_per_line = len(indexes_of_1)*25
+
+                    #################### csv writers initialized #####################################
+                    csv_writers = {}
+                    for filename in filenames:
+                        csv_file = open(filename, 'a', newline='')
+                        csv_writers[filename] = csv.writer(csv_file)
+                    #################### writers for selected sensors selected #########################
+
+                    buffer = ''
+                    i = 0
                             
+                    while is_running:
+                        data = c.recv(1).decode()
+                        #print(data, "--------------------------")
+                        if data == "" or not data:
+                            print("finished................")
+                            #active_list.remove(id)
                             break
                         
-                        columns = data.split(',')
-                        print(columns)
-                        writer.writerow(columns)
-                        elapsed_time = time.time() - start_time
-                        if elapsed_time >= 50:
-                            f.close()
-                            start_time = time.time()
-                            filename = 'sensordata_' + str(int(start_time / 5)) + '.csv'
-                            f = open(filename, 'w', newline='')
-                            writer = csv.writer(f)
-                            writer.writerow(['Acc(x)', 'Acc(y)', 'Acc(z)', 'Gyr(x)', 'Gyr(y)', 'Gyr(z)', 'Mag(x)', 'Mag(y)', 'Mag(z)'])
-                    
-                    remove_status(id)
+                        
+                        if data == "$":
+
+                            buffer = buffer.strip()
+                            print("buffer = ", buffer)
+                            sensor_data = buffer.split(',')
+                            sensor_data.append(id)
+                            sensor_data.append(datetime.now())
+                            buffer= ''
+                            # Split the data into chunks corresponding to the indexes
+                            #chunks = [sensor_data[i:i+3] for i in range(0, len(sensor_data), 3)]
+                            print(sensor_data, " to be writing to ----------", sensor_data[0])
+                            #for i, chunk in enumerate(chunks):
+                            filename = sensor_data[0]
+                            print(csv_writers)
+                            csv_writers[filename].writerow(sensor_data[1:])
+                            print("data written")
+                            i += 1
+                            if i >= len(indexes_of_1):
+                                i = 0
+                        else:
+                            buffer += data
+
+                    #remove_status(id)
                     break
 
-            f.close()
+            
             c.close()
         except Exception:
             pass
