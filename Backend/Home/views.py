@@ -31,9 +31,6 @@ def socket_bind(*args, **kwargs):
 
 
 
-
-
-
 @api_view(['GET'])
 def socket_connect(request):
     global is_running
